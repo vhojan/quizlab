@@ -1,0 +1,147 @@
+---
+# ── Namespace ────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: quizlab
+
+---
+# ── Secret — change HOST_PASSWORD before applying! ───────────────────────────
+apiVersion: v1
+kind: Secret
+metadata:
+  name: quizlab-secret
+  namespace: quizlab
+type: Opaque
+stringData:
+  HOST_PASSWORD: "itq2026"       # ← change this
+
+---
+# ── PersistentVolumeClaim — SQLite database file ─────────────────────────────
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: quizlab-data
+  namespace: quizlab
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  # storageClassName: longhorn   # uncomment if you use Longhorn / Rook / etc.
+
+---
+# ── Deployment ───────────────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quizlab
+  namespace: quizlab
+  labels:
+    app: quizlab
+spec:
+  replicas: 1          # ← KEEP AT 1  (WebSocket state + SQLite = single process)
+  selector:
+    matchLabels:
+      app: quizlab
+  strategy:
+    type: Recreate     # no rolling update — PVC is RWO
+  template:
+    metadata:
+      labels:
+        app: quizlab
+    spec:
+      containers:
+        - name: quizlab
+          image: ghcr.io/YOUR_ORG/quizlab:latest   # ← replace with your image
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: DB_PATH
+              value: "/data/quizlab.db"
+            - name: HOST_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: quizlab-secret
+                  key: HOST_PASSWORD
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 30
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: quizlab-data
+
+---
+# ── Service ──────────────────────────────────────────────────────────────────
+apiVersion: v1
+kind: Service
+metadata:
+  name: quizlab
+  namespace: quizlab
+spec:
+  selector:
+    app: quizlab
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
+
+---
+# ── Ingress (nginx) ───────────────────────────────────────────────────────────
+# WebSocket upgrade is required — the annotations below handle it.
+# Cloudflare Tunnel proxies HTTPS externally, so TLS at the ingress is optional.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: quizlab
+  namespace: quizlab
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-http-version: "1.1"
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Connection "upgrade";
+    # Optional: TLS via cert-manager (Cloudflare tunnel already terminates TLS)
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: quiz.johan.ml       # ← your public hostname via Cloudflare tunnel
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: quizlab
+                port:
+                  number: 80
+  # tls:
+  #   - hosts: [quiz.johan.ml]
+  #     secretName: quizlab-tls
