@@ -157,7 +157,7 @@ if (count.n === 0) {
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../frontend/public')));
+app.use(express.static(path.join('/app', 'frontend/public')));
 
 // ── Auth middleware ─────────────────────────────────────────────────────────
 function requireHost(req, res, next) {
@@ -548,6 +548,6 @@ wss.on('connection', (ws) => {
 });
 
 // ── Fallback SPA ─────────────────────────────────────────────────────────────
-app.get('*', (req, res) => res.sendFile(path.join(__dirname, '../frontend/public/index.html')));
+app.get('*', (req, res) => res.sendFile(path.join('/app', 'frontend/public/index.html')));
 
 server.listen(PORT, () => console.log(`QuizLab running on :${PORT}  host-pw: ${HOST_PASSWORD}`));
