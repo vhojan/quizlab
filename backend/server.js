@@ -179,7 +179,7 @@ if (count.n === 0) {
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '10mb' })); // large for logo upload
-app.use(express.static(path.join(__dirname, '../frontend/public')));
+app.use(express.static(path.join('/app', 'frontend/public')));
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 app.post('/api/host/login', (req, res) => {
@@ -546,6 +546,6 @@ wss.on('connection', (ws) => {
 });
 
 // ── Fallback SPA ──────────────────────────────────────────────────────────────
-app.get('*', (req,res) => res.sendFile(path.join(__dirname,'../frontend/public/index.html')));
+app.get('*', (req,res) => res.sendFile(path.join('/app','frontend/public/index.html')));
 
 server.listen(PORT, () => console.log(`QuizLab running on :${PORT}`));
