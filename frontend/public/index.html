@@ -5,25 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>QuizLab</title>
 <style>
-/* ══ ITQ Brand ═══════════════════════════════════════════════════════════ */
+/* ══ ITQ Brand — From 0 to 100 deck palette ══════════════════════════════ */
 :root {
-  --blue:   #040559;
-  --sky:    #FF4F41;
-  --teal:   #FF7A6E;
-  --green:  #3ECF6A;
-  --purple: #335964;
-  --dark:   #02021F;
-  --red:    #FF4F41;
+  --blue:   #040559;   /* primary dark navy */
+  --sky:    #FF4F41;   /* coral red — primary accent */
+  --teal:   #FF7A6E;   /* coral light — secondary accent */
+  --green:  #FF4F41;   /* reuse coral for correct states */
+  --purple: #335964;   /* dark teal — tertiary */
+  --dark:   #02021F;   /* deepest background */
+  --red:    #FF4F41;   /* errors / wrong */
   --white:  #FFFFFF;
-  --g50:    #F0F5FF;
-  --g100:   #D8E8FF;
-  --g300:   #8AAAD8;
-  --g500:   #4E6899;
-  --g700:   #1E2F5A;
-  --gold:   #F5A623;
-  --silver: #A8B8CC;
+  --g50:    #F0F0F8;
+  --g100:   #D0CECE;
+  --g300:   #9B9898;
+  --g500:   #757070;
+  --g700:   #2A2A4A;
+  --gold:   #FFB830;
+  --silver: #AEABAB;
   --bronze: #CD7F32;
-  --correct:#3ECF6A;
+  --correct:#3ECF6A;   /* keep green for correct answers — readable on dark */
   --wrong:  #FF4F41;
   --r: 12px;
 }
@@ -35,15 +35,15 @@ html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sa
 .page{display:none;flex:1;flex-direction:column}
 .page.on{display:flex}
 
-/* ── ITQ gradient bar ── */
-.bar{height:4px;background:linear-gradient(90deg,#3ECF6A,#FF7A6E,#FF4F41,#040559,#335964);flex-shrink:0}
+/* ── ITQ accent bar — coral fade ── */
+.bar{height:4px;background:linear-gradient(90deg,#FF4F41,#FF7A6E,#FFB0AA,#FF7A6E,#FF4F41);flex-shrink:0}
 
 /* ── Top nav ── */
-.nav{background:rgba(4,5,89,.97);backdrop-filter:blur(12px);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,79,65,.18);flex-shrink:0;position:sticky;top:0;z-index:50}
-.nav-logo{font-weight:900;font-size:20px;letter-spacing:-0.5px;background:linear-gradient(90deg,var(--sky),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
+.nav{background:rgba(4,5,89,.97);backdrop-filter:blur(12px);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,79,65,.2);flex-shrink:0;position:sticky;top:0;z-index:50}
+.nav-logo{font-weight:900;font-size:20px;letter-spacing:-0.5px;background:linear-gradient(90deg,#FF4F41,#FF9990);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
 .nav-right{display:flex;gap:10px;align-items:center}
-.nav-btn{background:rgba(255,79,65,.12);border:1px solid rgba(255,79,65,.3);color:var(--sky);border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
-.nav-btn:hover{background:rgba(255,79,65,.22)}
+.nav-btn{background:rgba(255,79,65,.1);border:1px solid rgba(255,79,65,.3);color:#FF7A6E;border-radius:8px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.nav-btn:hover{background:rgba(255,79,65,.2)}
 .nav-btn.active{background:var(--sky);color:#fff;border-color:var(--sky)}
 
 /* ── Cards / panels ── */
@@ -58,19 +58,19 @@ h2{font-size:20px;font-weight:700}
 h3{font-size:15px;font-weight:700;color:var(--g300)}
 .muted{color:var(--g300);font-size:14px;line-height:1.6}
 .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:99px;margin-bottom:10px}
-.tag-teal{background:rgba(255,79,65,.12);border:1px solid rgba(255,79,65,.35);color:var(--teal)}
+.tag-teal{background:rgba(255,79,65,.12);border:1px solid rgba(255,79,65,.35);color:#FF7A6E}
 .tag-sky{background:rgba(255,79,65,.12);border:1px solid rgba(255,79,65,.35);color:var(--sky)}
-.tag-green{background:rgba(62,207,106,.12);border:1px solid rgba(62,207,106,.35);color:var(--green)}
+.tag-green{background:rgba(62,207,106,.12);border:1px solid rgba(120,190,32,.35);color:var(--green)}
 
 /* ── Buttons ── */
 .btn{display:inline-flex;align-items:center;gap:6px;padding:11px 24px;border-radius:var(--r);border:none;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;text-decoration:none;white-space:nowrap}
 .btn:hover{transform:translateY(-1px)}
 .btn:active{transform:none}
 .btn:disabled{opacity:.4;cursor:default;transform:none}
-.btn-primary{background:linear-gradient(135deg,var(--blue),var(--sky));color:#fff;box-shadow:0 4px 16px rgba(255,79,65,.3)}
-.btn-primary:hover{box-shadow:0 6px 24px rgba(255,79,65,.45)}
-.btn-teal{background:linear-gradient(135deg,#009faf,var(--teal));color:#fff}
-.btn-green{background:linear-gradient(135deg,#5d9a00,var(--green));color:#fff}
+.btn-primary{background:linear-gradient(135deg,#040559,#FF4F41);color:#fff;box-shadow:0 4px 16px rgba(255,79,65,.3)}
+.btn-primary:hover{box-shadow:0 6px 24px rgba(255,79,65,.4)}
+.btn-teal{background:linear-gradient(135deg,#c93a2e,#FF4F41);color:#fff}
+.btn-green{background:linear-gradient(135deg,#28a05a,#3ECF6A);color:#fff}
 .btn-danger{background:rgba(217,92,79,.15);border:1px solid rgba(217,92,79,.35);color:var(--red)}
 .btn-danger:hover{background:rgba(217,92,79,.25)}
 .btn-ghost{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);color:var(--white)}
@@ -94,8 +94,8 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 /* ═══════════════════════════════════════════════════════════════════════════
    HOME PAGE
 ══════════════════════════════════════════════════════════════════════════ */
-.home-hero{padding:64px 20px 48px;background:radial-gradient(ellipse at 20% 10%,rgba(255,79,65,.1) 0,transparent 55%),radial-gradient(ellipse at 80% 80%,rgba(62,207,106,.08) 0,transparent 55%);text-align:center}
-.home-hero h1 span{color:var(--teal)}
+.home-hero{padding:64px 20px 48px;background:radial-gradient(ellipse at 20% 10%,rgba(255,79,65,.1) 0,transparent 55%),radial-gradient(ellipse at 80% 80%,rgba(4,5,89,.4) 0,transparent 55%);text-align:center}
+.home-hero h1 span{color:#FF7A6E}
 .home-hero p{max-width:500px;margin:12px auto 0}
 .home-join{max-width:420px;margin:0 auto;padding:0 20px 40px}
 .pin-input{font-size:36px;font-weight:900;letter-spacing:10px;text-align:center;padding:20px;border-radius:16px}
@@ -118,7 +118,7 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 .quiz-card-new .plus{font-size:32px}
 .active-games{margin-top:32px}
 .active-game-row{display:flex;align-items:center;gap:14px;background:rgba(255,79,65,.07);border:1px solid rgba(255,79,65,.2);border-radius:12px;padding:14px 18px;margin-bottom:10px}
-.pin-badge{font-size:22px;font-weight:900;color:var(--teal);letter-spacing:3px;font-variant-numeric:tabular-nums;flex-shrink:0}
+.pin-badge{font-size:22px;font-weight:900;color:#FF7A6E;letter-spacing:3px;font-variant-numeric:tabular-nums;flex-shrink:0}
 .game-info{flex:1}
 .game-info-title{font-size:14px;font-weight:700}
 .game-info-meta{font-size:12px;color:var(--g300);margin-top:2px}
@@ -150,7 +150,7 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 .opt-wrap{position:relative}
 .opt-letter{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;width:20px;height:20px;border-radius:5px;display:flex;align-items:center;justify-content:center}
 .opt-a .opt-letter{background:rgba(255,79,65,.2);color:var(--sky)}
-.opt-b .opt-letter{background:rgba(255,79,65,.2);color:var(--teal)}
+.opt-b .opt-letter{background:rgba(255,79,65,.2);color:#FF7A6E}
 .opt-c .opt-letter{background:rgba(62,207,106,.2);color:var(--green)}
 .opt-d .opt-letter{background:rgba(51,89,100,.2);color:var(--purple)}
 .opt-wrap .inp{padding-left:38px}
@@ -167,12 +167,12 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 .host-game-wrap{flex:1;display:flex;flex-direction:column;padding:20px;gap:16px}
 .host-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .pin-display{background:rgba(255,79,65,.1);border:2px solid rgba(255,79,65,.3);border-radius:14px;padding:10px 20px;text-align:center}
-.pin-display .pin-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--g300)}
-.pin-display .pin-val{font-size:32px;font-weight:900;color:var(--teal);letter-spacing:6px}
+.pin-display .pin-label{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#9B9898}
+.pin-display .pin-val{font-size:32px;font-weight:900;color:#FF7A6E;letter-spacing:6px}
 .host-status{flex:1}
 .host-status-phase{font-size:13px;color:var(--g300)}
 .host-status-text{font-size:18px;font-weight:700}
-.player-count-chip{background:rgba(62,207,106,.1);border:1px solid rgba(62,207,106,.3);border-radius:10px;padding:8px 16px;font-size:14px;color:var(--green)}
+.player-count-chip{background:rgba(255,79,65,.1);border:1px solid rgba(255,79,65,.3);border-radius:10px;padding:8px 16px;font-size:14px;color:var(--green)}
 .host-controls{display:flex;gap:10px;flex-wrap:wrap}
 .host-question-area{background:rgba(255,255,255,.04);border:1px solid rgba(255,79,65,.2);border-radius:16px;padding:24px;flex:1;display:flex;flex-direction:column;gap:16px}
 .host-q-text{font-size:clamp(18px,3vw,26px);font-weight:700;text-align:center;line-height:1.4}
@@ -182,35 +182,35 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 @keyframes pulse{from{opacity:1}to{opacity:.5}}
 .host-options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .host-opt{border-radius:12px;padding:14px 16px;font-size:15px;font-weight:600;border:2px solid transparent;display:flex;align-items:center;gap:10px;transition:all .3s}
-.host-opt-a{background:#FFFFFF;border-color:#FFFFFF;color:#FF4F41}
-.host-opt-b{background:#FFFFFF;border-color:#FFFFFF;color:#FF4F41}
-.host-opt-c{background:#FFFFFF;border-color:#FFFFFF;color:#FF4F41}
-.host-opt-d{background:#FFFFFF;border-color:#FFFFFF;color:#FF4F41}
+.host-opt-a{background:rgba(255,79,65,.15);border-color:rgba(255,79,65,.3);color:var(--sky)}
+.host-opt-b{background:rgba(0,193,213,.15);border-color:rgba(255,79,65,.3);color:#FF7A6E}
+.host-opt-c{background:rgba(62,207,106,.15);border-color:rgba(62,207,106,.3);color:var(--green)}
+.host-opt-d{background:rgba(51,89,100,.15);border-color:rgba(51,89,100,.35);color:var(--purple)}
 .host-opt.correct-opt{border-width:3px;box-shadow:0 0 16px rgba(62,207,106,.3)}
 .host-opt.correct-opt.host-opt-a{border-color:var(--sky);background:rgba(255,79,65,.3)}
-.host-opt.correct-opt.host-opt-b{border-color:var(--teal);background:rgba(255,79,65,.3)}
+.host-opt.correct-opt.host-opt-b{border-color:#FF7A6E;background:rgba(255,79,65,.3)}
 .host-opt.correct-opt.host-opt-c{border-color:var(--green);background:rgba(62,207,106,.3)}
-.host-opt.correct-opt.host-opt-d{border-color:var(--purple);background:rgba(51,89,100,.3)}
+.host-opt.correct-opt.host-opt-d{border-color:var(--purple);background:rgba(51,89,100,.35)}
 .opt-icon{font-size:18px;flex-shrink:0}
 .answer-bar-wrap{margin-top:8px}
 .answer-bar-label{font-size:12px;color:var(--g300);margin-bottom:6px}
 .answer-bar-outer{height:8px;background:rgba(255,255,255,.08);border-radius:99px;overflow:hidden}
-.answer-bar-inner{height:100%;background:linear-gradient(90deg,var(--sky),var(--teal));border-radius:99px;transition:width .5s ease}
+.answer-bar-inner{height:100%;background:linear-gradient(90deg,#FF4F41,#FF7A6E);border-radius:99px;transition:width .5s ease}
 
 /* Mini leaderboard in host view */
 .host-lb{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
 .host-lb-row{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border-radius:10px;padding:10px 14px}
 .host-lb-rank{font-size:16px;font-weight:900;width:28px;flex-shrink:0}
 .host-lb-name{flex:1;font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.host-lb-score{font-size:14px;font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums}
+.host-lb-score{font-size:14px;font-weight:800;color:#FF7A6E;font-variant-numeric:tabular-nums}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    PLAYER GAME VIEW
 ══════════════════════════════════════════════════════════════════════════ */
 .player-lobby{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px 16px;text-align:center}
-.player-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--teal));display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto}
+.player-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,#040559,#FF4F41);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto}
 .waiting-anim{display:flex;gap:6px;justify-content:center}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--teal);animation:blink 1.4s infinite ease-in-out}
+.dot{width:8px;height:8px;border-radius:50%;background:#FF7A6E;animation:blink 1.4s infinite ease-in-out}
 .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
 @keyframes blink{0%,80%,100%{transform:scale(.5);opacity:.4}40%{transform:scale(1);opacity:1}}
 
@@ -224,19 +224,19 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 .p-q-text{font-size:clamp(16px,3.5vw,22px);font-weight:700;text-align:center;line-height:1.4;padding:0 4px}
 .p-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .p-opt{border-radius:14px;padding:16px 12px;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;border:2px solid transparent;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;min-height:80px;justify-content:center;background:#FFFFFF;color:#FF4F41}
-.p-opt:hover:not(:disabled){transform:scale(1.03)}
+.p-opt:hover:not(:disabled){transform:scale(1.03);box-shadow:0 4px 16px rgba(0,0,0,.2)}
 .p-opt:active:not(:disabled){transform:scale(.97)}
 .p-opt:disabled{cursor:default}
 .p-opt-a{background:#FFFFFF;border-color:#FFFFFF;color:#FF4F41}
 .p-opt-b{background:#FFFFFF;border-color:#FFFFFF;color:#FF4F41}
 .p-opt-c{background:#FFFFFF;border-color:#FFFFFF;color:#FF4F41}
 .p-opt-d{background:#FFFFFF;border-color:#FFFFFF;color:#FF4F41}
-.p-opt.selected.p-opt-a{background:rgba(255,79,65,.5);border-color:var(--sky)}
-.p-opt.selected.p-opt-b{background:rgba(255,79,65,.5);border-color:var(--teal)}
+.p-opt.selected.p-opt-a{background:#FF4F41;border-color:#FF4F41;color:#FFFFFF}
+.p-opt.selected.p-opt-b{background:#FF4F41;border-color:#FF4F41;color:#FFFFFF}
 .p-opt.selected.p-opt-c{background:#FF4F41;border-color:#FF4F41;color:#FFFFFF}
-.p-opt.selected.p-opt-d{background:rgba(51,89,100,.5);border-color:var(--purple)}
-.p-opt.correct-opt{border-color:var(--green)!important;background:rgba(62,207,106,.3)!important;color:#fff!important}
-.p-opt.wrong-opt{border-color:var(--red)!important;background:rgba(217,92,79,.2)!important;opacity:.7}
+.p-opt.selected.p-opt-d{background:#FF4F41;border-color:#FF4F41;color:#FFFFFF}
+.p-opt.correct-opt{border-color:#3ECF6A!important;background:#3ECF6A!important;color:#fff!important}
+.p-opt.wrong-opt{border-color:#FF4F41!important;background:rgba(255,79,65,.15)!important;color:#FF4F41!important;opacity:.7}
 .opt-shape{font-size:20px}
 .p-feedback{border-radius:14px;padding:16px;text-align:center;font-size:16px;font-weight:700;animation:pop .3s ease;display:none}
 .p-feedback.show{display:block}
@@ -247,7 +247,7 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 .p-open-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;padding:8px 0}
 .p-open-input{font-size:40px;font-weight:900;letter-spacing:6px;text-align:center;width:180px;padding:16px;border-radius:14px}
 .player-score-bar{padding:10px 18px;background:rgba(4,5,89,.5);border-top:1px solid rgba(255,79,65,.18);display:flex;align-items:center;justify-content:space-between;font-size:13px;color:var(--g300);flex-shrink:0}
-.player-score-bar .score-v{font-size:20px;font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums}
+.player-score-bar .score-v{font-size:20px;font-weight:800;color:#FF7A6E;font-variant-numeric:tabular-nums}
 
 /* ── Leaderboard shared ── */
 .lb-wrap{flex:1;display:flex;flex-direction:column;align-items:center;padding:28px 16px}
@@ -259,13 +259,13 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 .lb-row.rank-1{background:rgba(245,166,35,.1);border-color:rgba(245,166,35,.35);box-shadow:0 0 16px rgba(245,166,35,.12)}
 .lb-row.rank-2{background:rgba(168,184,204,.07);border-color:rgba(168,184,204,.28)}
 .lb-row.rank-3{background:rgba(205,127,50,.08);border-color:rgba(205,127,50,.28)}
-.lb-row.is-me{border-color:var(--teal)!important;background:rgba(255,79,65,.08)!important}
+.lb-row.is-me{border-color:#FF7A6E!important;background:rgba(255,79,65,.08)!important}
 .lb-rank{font-size:18px;font-weight:900;width:30px;text-align:center;flex-shrink:0}
 .rank-1 .lb-rank{color:var(--gold);font-size:22px}
 .rank-2 .lb-rank{color:var(--silver)}
 .rank-3 .lb-rank{color:var(--bronze)}
 .lb-name{flex:1;font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lb-score{font-size:16px;font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums;flex-shrink:0}
+.lb-score{font-size:16px;font-weight:800;color:#FF7A6E;font-variant-numeric:tabular-nums;flex-shrink:0}
 
 /* Podium */
 .podium{display:flex;align-items:flex-end;justify-content:center;gap:10px;margin-bottom:28px;width:100%;max-width:460px}
@@ -278,6 +278,11 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
 .pod-2 .pod-plinth{height:55px;background:linear-gradient(180deg,rgba(168,184,204,.3),rgba(168,184,204,.05));border:1px solid rgba(168,184,204,.3)}
 .pod-3 .pod-plinth{height:40px;background:linear-gradient(180deg,rgba(205,127,50,.3),rgba(205,127,50,.05));border:1px solid rgba(205,127,50,.3)}
 
+/* ── Settings page ── */
+#page-settings .card{margin-bottom:0}
+#page-settings h2{color:var(--white);font-size:16px}
+code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-size:11px;color:var(--teal)}
+
 /* ── Toast ── */
 #toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--g700);border:1px solid rgba(255,79,65,.3);border-radius:12px;padding:12px 20px;font-size:14px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
 #toast.show{opacity:1}
@@ -288,7 +293,10 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
   <!-- NAV -->
   <div class="bar"></div>
   <nav class="nav" id="nav">
-    <div class="nav-logo" onclick="route('home')">QuizLab</div>
+    <div class="nav-logo" onclick="route(S.token ? 'dashboard' : 'home')" style="display:flex;align-items:center;gap:8px">
+      <img id="nav-logo-img" src="" style="display:none;height:32px;width:auto;border-radius:6px;object-fit:contain" alt="Logo" />
+      <span id="nav-logo-text">QuizLab</span>
+    </div>
     <div class="nav-right" id="nav-right"></div>
   </nav>
 
@@ -357,6 +365,8 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
         <div style="display:flex;flex-direction:column;gap:8px">
           <button class="btn btn-green btn-sm" onclick="saveQuizMeta()">💾 Save</button>
           <button class="btn btn-primary btn-sm" onclick="launchGame()">▶ Launch Game</button>
+          <button class="btn btn-ghost btn-sm" onclick="openImportModal()">📥 Import</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportQuiz()">📤 Export</button>
           <button class="btn btn-ghost btn-sm" onclick="route('dashboard')">← Back</button>
         </div>
       </div>
@@ -479,6 +489,82 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
     </div>
   </div>
 
+  <!-- ══ SETTINGS PAGE ══════════════════════════════════════════════════ -->
+  <div class="page" id="page-settings">
+    <div class="panel">
+      <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px;flex-wrap:wrap">
+        <h1>⚙️ Settings</h1>
+        <button class="btn btn-ghost btn-sm" onclick="route('dashboard')" style="margin-left:auto">← Back</button>
+      </div>
+
+      <!-- Logo -->
+      <div class="card card-sm" style="margin-bottom:16px">
+        <h2 style="margin-bottom:14px">Custom Logo</h2>
+        <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+          <div id="logo-preview" style="width:80px;height:80px;border-radius:12px;background:rgba(255,255,255,.06);border:2px dashed rgba(255,79,65,.3);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--g300);text-align:center;overflow:hidden">No logo</div>
+          <div style="flex:1">
+            <p class="muted" style="margin-bottom:10px">PNG or JPG, shown in the nav on all screens.</p>
+            <input type="file" id="logo-file" accept="image/png,image/jpeg" style="display:none" onchange="handleLogoUpload(event)" />
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button class="btn btn-ghost btn-sm" onclick="document.getElementById('logo-file').click()">📁 Choose file</button>
+              <button class="btn btn-danger btn-sm" onclick="removeLogo()">🗑 Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game defaults -->
+      <div class="card card-sm" style="margin-bottom:16px">
+        <h2 style="margin-bottom:14px">Game Defaults</h2>
+        <div class="inp-row">
+          <div class="form-group">
+            <label>Default answer timer (sec)</label>
+            <input class="inp inp-sm" type="number" id="s-time" min="5" max="300" value="20" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaderboard -->
+      <div class="card card-sm" style="margin-bottom:16px">
+        <h2 style="margin-bottom:14px">Leaderboard</h2>
+        <div class="inp-row" style="flex-wrap:wrap">
+          <div class="form-group">
+            <label>Show leaderboard every N questions</label>
+            <input class="inp inp-sm" type="number" id="s-lb-every" min="0" max="50" value="5" />
+            <div class="muted" style="font-size:11px;margin-top:4px">Set to 0 to disable mid-game leaderboards</div>
+          </div>
+          <div class="form-group">
+            <label>Players shown on mid-game leaderboard</label>
+            <input class="inp inp-sm" type="number" id="s-lb-size" min="1" max="50" value="10" />
+          </div>
+          <div class="form-group">
+            <label>Winners shown at end of quiz</label>
+            <input class="inp inp-sm" type="number" id="s-final-size" min="1" max="50" value="5" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Password change -->
+      <div class="card card-sm" style="margin-bottom:16px">
+        <h2 style="margin-bottom:14px">Change Host Password</h2>
+        <div class="inp-row" style="flex-wrap:wrap">
+          <div class="form-group">
+            <label>Current password</label>
+            <input class="inp inp-sm" type="password" id="s-pw-current" placeholder="Current password" />
+          </div>
+          <div class="form-group">
+            <label>New password</label>
+            <input class="inp inp-sm" type="password" id="s-pw-new" placeholder="New password (min 4 chars)" />
+          </div>
+        </div>
+        <div id="s-pw-error" class="error"></div>
+        <button class="btn btn-primary btn-sm" style="margin-top:8px" onclick="changePassword()">Update Password</button>
+      </div>
+
+      <button class="btn btn-green btn-full btn-lg" onclick="saveSettings()">💾 Save Settings</button>
+    </div>
+  </div>
+
 </div><!-- #app -->
 
 <!-- ══ QUESTION MODAL ════════════════════════════════════════════════════ -->
@@ -546,6 +632,49 @@ select.inp{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns
   </div>
 </div>
 
+<!-- ══ IMPORT MODAL ═══════════════════════════════════════════════════════ -->
+<div class="modal-backdrop hidden" id="import-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Import Questions</h2>
+      <button class="modal-close" onclick="closeImportModal()">✕</button>
+    </div>
+    <p class="muted" style="margin-bottom:16px">Paste a JSON array of questions, or upload a <code>.json</code> file. Existing questions will be kept or replaced — your choice.</p>
+
+    <div style="display:flex;gap:10px;margin-bottom:12px">
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('import-file-inp').click()">📁 Load from file</button>
+      <button class="btn btn-ghost btn-sm" onclick="showClaudePrompt()">🤖 Generate with Claude</button>
+      <input type="file" id="import-file-inp" accept=".json" style="display:none" onchange="handleImportFile(event)" />
+    </div>
+
+    <div class="form-group">
+      <label>JSON</label>
+      <textarea class="inp" id="import-json" rows="10" placeholder='[{"text":"Question?","option_a":"A","option_b":"B","option_c":"C","option_d":"D","correct":0,"time_limit":20,"points":1000}]' style="resize:vertical;font-family:monospace;font-size:12px"></textarea>
+    </div>
+    <div id="import-error" class="error"></div>
+    <div style="display:flex;gap:10px;margin-top:12px">
+      <button class="btn btn-green btn-full" onclick="doImport('append')">➕ Append to existing</button>
+      <button class="btn btn-danger" onclick="doImport('replace')">♻️ Replace all</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CLAUDE PROMPT MODAL ════════════════════════════════════════════════ -->
+<div class="modal-backdrop hidden" id="claude-modal">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-header">
+      <h2>🤖 Generate Questions with Claude</h2>
+      <button class="modal-close" onclick="document.getElementById('claude-modal').classList.add('hidden')">✕</button>
+    </div>
+    <p class="muted" style="margin-bottom:16px">Copy the prompt below and paste it into Claude along with your document (PDF, PPTX, Word, or paste the text). Claude will return a JSON array you can paste directly into the import field.</p>
+    <div style="position:relative">
+      <textarea class="inp" id="claude-prompt-text" rows="16" readonly style="font-size:12px;font-family:monospace;resize:vertical;background:rgba(0,0,0,.3)"></textarea>
+      <button class="btn btn-primary btn-sm" style="position:absolute;top:8px;right:8px" onclick="copyClaudePrompt()">📋 Copy</button>
+    </div>
+    <p class="muted" style="margin-top:12px;font-size:12px">After Claude responds, copy the JSON array it produces and paste it into the Import modal.</p>
+  </div>
+</div>
+
 <!-- ══ EMOJI PICKER ══════════════════════════════════════════════════════ -->
 <div class="modal-backdrop hidden" id="emoji-modal">
   <div class="modal" style="max-width:380px">
@@ -590,8 +719,9 @@ function route(page) {
 function renderNav(page) {
   const right = document.getElementById('nav-right');
   right.innerHTML = '';
-  if (S.token && ['dashboard','editor','host-game'].includes(page)) {
-    btn(right,'← Dashboard','btn-ghost btn-sm',()=>route('dashboard'));
+  if (S.token && ['dashboard','editor','host-game','settings'].includes(page)) {
+    if (page !== 'settings') btn(right,'⚙️ Settings','btn-ghost btn-sm',()=>loadSettings());
+    if (page !== 'dashboard' && page !== 'settings') btn(right,'← Dashboard','btn-ghost btn-sm',()=>route('dashboard'));
     btn(right,'Log out','btn-ghost btn-sm',hostLogout);
   }
 }
@@ -1225,11 +1355,209 @@ function stopPlayerTimer() { if (S.timerIv) { clearInterval(S.timerIv); S.timerI
 // ── Utilities ──────────────────────────────────────────────────────────────
 function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// ── Init ───────────────────────────────────────────────────────────────────
+// ════════════════════════════════════════════════════════════════════════════
+//  SETTINGS
+// ════════════════════════════════════════════════════════════════════════════
+async function loadSettings() {
+  route('settings');
+  try {
+    const s = await api('GET', '/api/settings');
+    document.getElementById('s-time').value       = s.default_time_limit || 20;
+    document.getElementById('s-lb-every').value   = s.leaderboard_every  || 5;
+    document.getElementById('s-lb-size').value    = s.leaderboard_size   || 10;
+    document.getElementById('s-final-size').value = s.final_leaderboard_size || 5;
+    // Logo preview
+    if (s.logo_base64) {
+      const prev = document.getElementById('logo-preview');
+      prev.innerHTML = `<img src="/api/logo" style="width:100%;height:100%;object-fit:contain;border-radius:10px" />`;
+    }
+  } catch(e) { toast('Failed to load settings'); }
+}
+
+async function saveSettings() {
+  try {
+    await api('PUT', '/api/settings', {
+      default_time_limit:     document.getElementById('s-time').value,
+      leaderboard_every:      document.getElementById('s-lb-every').value,
+      leaderboard_size:       document.getElementById('s-lb-size').value,
+      final_leaderboard_size: document.getElementById('s-final-size').value,
+    });
+    toast('✅ Settings saved!');
+  } catch(e) { toast('Failed to save settings'); }
+}
+
+async function changePassword() {
+  const cur = document.getElementById('s-pw-current').value;
+  const nw  = document.getElementById('s-pw-new').value;
+  const err = document.getElementById('s-pw-error');
+  err.textContent = '';
+  if (!cur || !nw) { err.textContent = 'Both fields required'; return; }
+  try {
+    const d = await api('PUT', '/api/settings/password', { currentPassword: cur, newPassword: nw });
+    S.token = d.token;
+    localStorage.setItem('ql_token', d.token);
+    document.getElementById('s-pw-current').value = '';
+    document.getElementById('s-pw-new').value = '';
+    toast('✅ Password changed! New token saved.');
+  } catch(e) { err.textContent = e.message; }
+}
+
+// ── Logo ──────────────────────────────────────────────────────────────────────
+function handleLogoUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  if (!['image/png','image/jpeg'].includes(file.type)) { toast('PNG or JPG only'); return; }
+  if (file.size > 2 * 1024 * 1024) { toast('Max 2MB'); return; }
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const base64 = e.target.result.split(',')[1];
+    try {
+      await api('PUT', '/api/settings', { logo_base64: base64, logo_mime: file.type });
+      const prev = document.getElementById('logo-preview');
+      prev.innerHTML = `<img src="${e.target.result}" style="width:100%;height:100%;object-fit:contain;border-radius:10px" />`;
+      loadLogo(); // refresh nav logo
+      toast('✅ Logo uploaded!');
+    } catch(e) { toast('Failed to upload logo'); }
+  };
+  reader.readAsDataURL(file);
+}
+
+async function removeLogo() {
+  await api('PUT', '/api/settings', { logo_base64: '', logo_mime: '' });
+  document.getElementById('logo-preview').innerHTML = 'No logo';
+  document.getElementById('nav-logo-img').style.display = 'none';
+  document.getElementById('nav-logo-text').style.display = '';
+  toast('Logo removed');
+}
+
+async function loadLogo() {
+  try {
+    const r = await fetch('/api/logo');
+    if (!r.ok) return;
+    const blob = await r.blob();
+    const url = URL.createObjectURL(blob);
+    const img = document.getElementById('nav-logo-img');
+    const txt = document.getElementById('nav-logo-text');
+    img.src = url; img.style.display = 'block'; txt.style.display = 'none';
+  } catch { /* no logo */ }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  IMPORT / EXPORT
+// ════════════════════════════════════════════════════════════════════════════
+function openImportModal() {
+  document.getElementById('import-json').value = '';
+  document.getElementById('import-error').textContent = '';
+  document.getElementById('import-modal').classList.remove('hidden');
+}
+function closeImportModal() { document.getElementById('import-modal').classList.add('hidden'); }
+
+function handleImportFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    document.getElementById('import-json').value = e.target.result;
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+async function doImport(mode) {
+  const raw = document.getElementById('import-json').value.trim();
+  const errEl = document.getElementById('import-error');
+  errEl.textContent = '';
+  let questions;
+  try {
+    const parsed = JSON.parse(raw);
+    // Support both array and {questions:[...]} format
+    questions = Array.isArray(parsed) ? parsed : (parsed.questions || []);
+    if (!Array.isArray(questions) || questions.length === 0) throw new Error('No questions found');
+  } catch(e) { errEl.textContent = 'Invalid JSON: ' + e.message; return; }
+
+  const modeLabel = mode === 'replace' ? 'replace all existing questions' : 'append to existing questions';
+  if (!confirm(`This will ${modeLabel}. Continue?`)) return;
+
+  try {
+    const d = await api('POST', `/api/quizzes/${S.quizId}/import`, { questions, mode });
+    closeImportModal();
+    const quiz = await api('GET', `/api/quizzes/${S.quizId}`);
+    S.quiz = quiz; renderQuestionList(quiz.questions);
+    toast(`✅ Imported ${d.imported} question${d.imported !== 1 ? 's' : ''}!`);
+  } catch(e) { errEl.textContent = 'Import failed: ' + e.message; }
+}
+
+async function exportQuiz() {
+  try {
+    const r = await fetch(`/api/quizzes/${S.quizId}/export`, {
+      headers: { 'x-host-token': S.token }
+    });
+    const blob = await r.blob();
+    const cd = r.headers.get('Content-Disposition') || '';
+    const fname = cd.match(/filename="([^"]+)"/)?.[1] || 'quizlab-export.json';
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href=url; a.download=fname; a.click();
+    URL.revokeObjectURL(url);
+    toast('✅ Exported!');
+  } catch(e) { toast('Export failed'); }
+}
+
+// ════════════════════════════════════════════════════════════════════════════
+//  CLAUDE PROMPT
+// ════════════════════════════════════════════════════════════════════════════
+const CLAUDE_PROMPT = `You are a quiz question generator for an interactive live quiz platform called QuizLab.
+
+I will provide you with a document (slide deck, PDF, Word doc, or plain text). Your task is to generate quiz questions based on the content.
+
+OUTPUT FORMAT — return ONLY a valid JSON array, no explanation, no markdown fences, no preamble:
+
+[
+  {
+    "text": "The question text goes here?",
+    "option_a": "First answer option",
+    "option_b": "Second answer option",
+    "option_c": "Third answer option",
+    "option_d": "Fourth answer option",
+    "correct": 1,
+    "time_limit": 20,
+    "points": 1000,
+    "is_open": 0
+  }
+]
+
+RULES:
+- "correct" is the 0-based index of the correct answer (0=A, 1=B, 2=C, 3=D)
+- "time_limit" is seconds per question (use 15 for easy, 20 for normal, 30 for hard)
+- "points" is always 1000 (the platform adds speed bonus automatically)
+- "is_open" is 0 for multiple choice, 1 for numeric open answer
+- For open questions: set option_a/b/c/d to "" and "correct" to the numeric answer value
+- Make distractors plausible but clearly wrong to an attentive reader
+- Vary difficulty: ~30% easy, ~50% medium, ~20% hard
+- Questions should test genuine understanding, not word-for-word recall
+- Keep question text under 120 characters where possible
+- Keep answer options under 60 characters each
+
+Generate between 10 and 15 questions from the document I provide. Include 1 open numeric tiebreaker question at the end if there is a suitable statistic or number in the content.
+
+Here is the document content:
+[PASTE YOUR DOCUMENT TEXT OR DESCRIBE THE FILE HERE]`;
+
+function showClaudePrompt() {
+  document.getElementById('claude-prompt-text').value = CLAUDE_PROMPT;
+  document.getElementById('claude-modal').classList.remove('hidden');
+}
+
+function copyClaudePrompt() {
+  navigator.clipboard.writeText(CLAUDE_PROMPT).then(() => toast('✅ Prompt copied to clipboard!'));
+}
+
+// ── Init: load logo on startup ────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
+  loadLogo();
   if (S.token) { loadDashboard(); }
   else route('home');
 });
+
 </script>
 </body>
 </html>
